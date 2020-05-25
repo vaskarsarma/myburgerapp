@@ -21,15 +21,16 @@ class BurgerBuilder extends Component {
       cheese: 0
     },
     totalPrice: 4,
-    puchasable: false
+    puchasable: false,
+    puchasing: false
   }
 
-  updatePurchaseHandler =(ingredients) =>{
-    const sum= Object.keys(ingredients).map(ingKey =>{
+  updatePurchaseHandler = (ingredients) => {
+    const sum = Object.keys(ingredients).map(ingKey => {
       return ingredients[ingKey]
-    }).reduce(((sum,el) => sum + el),0);
+    }).reduce(((sum, el) => sum + el), 0);
 
-    this.setState({puchasable: sum >0});
+    this.setState({ puchasable: sum > 0 });
   }
 
   addIngredientHandler = (type) => {
@@ -71,22 +72,35 @@ class BurgerBuilder extends Component {
     this.updatePurchaseHandler(newState);
   }
 
+  purchasingHandler= () =>{
+    this.setState({puchasing:true});
+  }
+
+  cancelPurchaseHandler = () =>{
+    this.setState({puchasing:false});
+  }
+
   render() {
-    const disabledInfo= {...this.state.ingredient};
-    for(let key in disabledInfo){
-      disabledInfo[key]= disabledInfo[key] <= 0;
+    const disabledInfo = { ...this.state.ingredient };
+    for (let key in disabledInfo) {
+      disabledInfo[key] = disabledInfo[key] <= 0;
     }
 
     return (
       <AUX>
-        <Modal><OrderSummary ingredient={this.state.ingredient}></OrderSummary></Modal>
+        <Modal 
+          show={this.state.puchasing} 
+          cancelPurchase={this.cancelPurchaseHandler}>
+            <OrderSummary ingredient={this.state.ingredient}></OrderSummary>
+        </Modal>
         <Burger ingredient={this.state.ingredient} />
         <BurgerControls
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
-          disabled= {disabledInfo}
+          disabled={disabledInfo}
           totalprice={this.state.totalPrice}
           puchasable={this.state.puchasable}
+          ordered={this.purchasingHandler}
         />
       </AUX>
     );
