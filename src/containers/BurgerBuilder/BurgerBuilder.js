@@ -4,6 +4,8 @@ import Burger from "../../components/Burger/Burger";
 import BurgerControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import axios from "../../axios-orders";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const INGREDIENT_PRICE = {
   salad: 0.5,
@@ -22,7 +24,8 @@ class BurgerBuilder extends Component {
     },
     totalPrice: 4,
     puchasable: false,
-    puchasing: false
+    puchasing: false,
+    loading: false
   }
 
   updatePurchaseHandler = (ingredients) => {
@@ -72,17 +75,41 @@ class BurgerBuilder extends Component {
     this.updatePurchaseHandler(newState);
   }
 
-  purchasingHandler= () =>{
-    this.setState({puchasing:true});
+  purchasingHandler = () => {
+    this.setState({ puchasing: true });
   }
 
-  cancelPurchaseHandler = () =>{
-    this.setState({puchasing:false});
+  cancelPurchaseHandler = () => {
+    this.setState({ puchasing: false });
   }
 
-  continuePurchaseHandler =() =>{
-    alert("You continue!"); //TODO : need to remove
-    console.log("continue clicked");
+  continuePurchaseHandler = () => {
+    this.setState({ loading: true });
+    const data = {
+      ingredient: this.state.ingredient,
+      price: "$" + this.state.totalPrice.toFixed(2),
+      customer: {
+        name: 'Vaskar Sarma',
+        address: {
+          buildingnumber: "222",
+          flatno: "22233",
+          area: "Dubai",
+          city: "Dubai"
+        },
+        email: "test@gmail.com",
+        contactno: "4344234344343"
+      },
+      deliveryoptions: "fastest"
+    }
+
+    axios.post('/order.json', data)
+      .then(response => {
+        this.setState({ loading: false, puchasing: false });
+        console.log(response);
+      }).catch(error => {
+        this.setState({ loading: false, puchasing: false });
+        console.log(error);
+      });
   }
 
   render() {
@@ -91,17 +118,25 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
 
+    let orderSummary = <OrderSummary
+      totalPrice={this.state.totalPrice}
+      cancelOrder={this.cancelPurchaseHandler}
+      continuePurchase={this.continuePurchaseHandler}
+      ingredient={this.state.ingredient}>
+    </OrderSummary>;
+
+    if (this.state.loading) {
+      orderSummary = <Spinner />;
+    }
+
+    console.log("Burger Builder : show " + this.state.puchasing);
+
     return (
       <AUX>
-        <Modal 
-          show={this.state.puchasing} 
+        <Modal
+          show={this.state.puchasing}
           cancelPurchase={this.cancelPurchaseHandler}>
-            <OrderSummary 
-                totalPrice = {this.state.totalPrice}
-                cancelOrder= {this.cancelPurchaseHandler}
-                continuePurchase={this.continuePurchaseHandler}
-                ingredient={this.state.ingredient}>
-            </OrderSummary>
+          {orderSummary}
         </Modal>
         <Burger ingredient={this.state.ingredient} />
         <BurgerControls
