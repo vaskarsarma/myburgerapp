@@ -3,7 +3,6 @@ import Order from '../../components/Order/Order';
 import Axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/WithErrorHandler';
-import AUX from '../../hoc/Hoc/hoc-aux';
 
 class Orders extends Component {
 	state = {
@@ -37,13 +36,15 @@ class Orders extends Component {
 	}
 
 	render() {
-		let orderList = (
-			<AUX>
-				<Order />
-				<Order />
-				<Order />
-			</AUX>
-		);
+		let orderList = this.state.orders.map(order => {
+			return (
+				<Order
+					key={order.id}
+					price={order.price}
+					ingredients={order.ingredient}
+				/>
+			);
+		});
 
 		if (this.state.orders.length === 0) {
 			orderList = <Spinner />;

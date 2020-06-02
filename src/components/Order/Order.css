@@ -6,3 +6,29 @@
 	margin: 10px auto;
 	box-sizing: border-box;
 }
+
+.Order span {
+	text-transform: capitalize;
+	display: inline-block;
+	margin: 8px;
+	border: 1px solid #ccc;
+	padding: 5px;
+}
+
+@media (min-width: 1000px) {
+	.Order {
+		width: 50%;
+	}
+}
+
+@media (max-width: 700px) {
+	.Order {
+		width: 70%;
+	}
+}
+
+@media (max-width: 500px) {
+	.Order {
+		width: 80%;
+	}
+}
