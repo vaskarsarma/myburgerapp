@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Router, Redirect } from 'react-router-dom';
+
 import AUX from '../../hoc/Hoc/hoc-aux';
 import Burger from '../../components/Burger/Burger';
 import BurgerControls from '../../components/Burger/BuildControls/BuildControls';
@@ -7,6 +9,8 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import WithErrorHandler from '../../hoc/withErrorHandler/WithErrorHandler';
+import { firebrick } from 'color-name';
+//import Checkout from '../Checkout/Checkout';
 
 const INGREDIENT_PRICE = {
 	salad: 0.5,
@@ -115,34 +119,47 @@ class BurgerBuilder extends Component {
 	};
 
 	continuePurchaseHandler = () => {
-		this.setState({ loading: true });
-		const data = {
-			ingredient: this.state.ingredient,
-			price: '$' + this.state.totalPrice.toFixed(2),
-			customer: {
-				name: 'Vaskar Sarma',
-				address: {
-					buildingnumber: '222',
-					flatno: '22233',
-					area: 'Dubai',
-					city: 'Dubai',
-				},
-				email: 'test@gmail.com',
-				contactno: '4344234344343',
-			},
-			deliveryoptions: 'fastest',
-		};
+		// this.setState({ loading: true });
+		// const data = {
+		// 	ingredient: this.state.ingredient,
+		// 	price: '$' + this.state.totalPrice.toFixed(2),
+		// 	customer: {
+		// 		name: 'Vaskar Sarma',
+		// 		address: {
+		// 			buildingnumber: '222',
+		// 			flatno: '22233',
+		// 			area: 'Dubai',
+		// 			city: 'Dubai',
+		// 		},
+		// 		email: 'test@gmail.com',
+		// 		contactno: '4344234344343',
+		// 	},
+		// 	deliveryoptions: 'fastest',
+		// };
+		// axios
+		// 	.post('/order.json', data)
+		// 	.then(response => {
+		// 		this.setState({ loading: false, puchasing: false });
+		// 		console.log(response);
+		const queryParams = [];
+		for (let i in this.state.ingredient) {
+			queryParams.push(
+				encodeURIComponent(i) +
+					'=' +
+					encodeURIComponent(this.state.ingredient[i]),
+			);
+		}
+		const queryStr = queryParams.join('&');
 
-		axios
-			.post('/order.json', data)
-			.then(response => {
-				this.setState({ loading: false, puchasing: false });
-				console.log(response);
-			})
-			.catch(error => {
-				this.setState({ loading: false, puchasing: false });
-				console.log(error);
-			});
+		this.props.history.push({
+			pathname: '/Checkout',
+			search: '?' + queryStr,
+		});
+		// 	})
+		// 	.catch(error => {
+		// 		this.setState({ loading: false, puchasing: false });
+		// 		console.log(error);
+		// 	});
 	};
 
 	render() {
