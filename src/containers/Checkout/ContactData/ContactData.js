@@ -19,14 +19,36 @@ class ContactData extends Component {
 	render() {
 		return (
 			<div className={classes.ContactData}>
-				<h1>Contact Data</h1>
-				<input type='text' name='name' placeholder='Your Name'></input>
-				<input type='email' name='email' placeholder='Your Mail ID'></input>
-				<input type='text' name='street' placeholder='Street'></input>
-				<input type='text' name='postalCode' placeholder='Postal Code'></input>
-				<Button btnType='SUCCESS' clicked={this.orderHandler}>
-					ORDER
-				</Button>
+				<h1>Enter your contact data</h1>
+				<form>
+					<input
+						type='text'
+						className={classes.Input}
+						name='name'
+						placeholder='Your Name'
+					></input>
+					<input
+						type='email'
+						className={classes.Input}
+						name='email'
+						placeholder='Your Mail ID'
+					></input>
+					<input
+						type='text'
+						className={classes.Input}
+						name='street'
+						placeholder='Street'
+					></input>
+					<input
+						type='text'
+						className={classes.Input}
+						name='postalCode'
+						placeholder='Postal Code'
+					></input>
+					<Button btnType='Success' clicked={this.orderHandler}>
+						ORDER
+					</Button>
+				</form>
 			</div>
 		);
 	}
