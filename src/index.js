@@ -6,6 +6,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './store/reducer';
+
+// Create Store
+const store = createStore(rootReducer);
+
 //import axios from "axios";
 // axios.interceptors.request.use(request =>{
 //   console.log(request);
@@ -25,9 +32,11 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<App />
-		</BrowserRouter>
+		<Provider store={store}>
+			<BrowserRouter>
+				<App />
+			</BrowserRouter>
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root'),
 );

@@ -10,6 +10,8 @@ import classes from './ContactData.css';
 
 import Input from '../../../components/UI/Input/Input';
 
+import { connect } from 'react-redux';
+
 class ContactData extends Component {
 	state = {
 		orderFrom: {
@@ -213,4 +215,11 @@ class ContactData extends Component {
 	}
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+	return {
+		ingredient: state.ingredient,
+		price: state.totalPrice,
+	};
+};
+
+export default connect(mapStateToProps)(ContactData);
