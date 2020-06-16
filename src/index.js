@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import rootReducer from './store/reducer';
 
 // Create Store
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 //import axios from "axios";
 // axios.interceptors.request.use(request =>{
