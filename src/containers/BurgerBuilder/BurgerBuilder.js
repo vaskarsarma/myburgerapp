@@ -13,7 +13,9 @@ import WithErrorHandler from '../../hoc/withErrorHandler/WithErrorHandler';
 //import Checkout from '../Checkout/Checkout';
 
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+//import * as actionTypes from '../../store/actions/actionTypes';
+
+import * as burgerBuilder from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
 	state = {
@@ -22,12 +24,13 @@ class BurgerBuilder extends Component {
 		//totalPrice: 4,
 		//puchasable: false,
 		puchasing: false,
-		loading: false,
-		error: false,
+		//loading: false,
+		//error: false,
 	};
 
 	componentWillMount() {
 		console.log(this.props);
+		this.props.onInitiateIngredient();
 		// axios
 		// 	.get(`/ingredient.json`)
 		// 	.then(response => {
@@ -139,7 +142,7 @@ class BurgerBuilder extends Component {
 			disabledInfo[key] = disabledInfo[key] <= 0;
 		}
 
-		let burger = this.state.error ? (
+		let burger = this.props.error ? (
 			<p style={{ textAlign: 'center' }}>Error loading ingredient!!!</p>
 		) : (
 			<Spinner />
@@ -174,9 +177,9 @@ class BurgerBuilder extends Component {
 			);
 		}
 
-		if (this.state.loading) {
-			orderSummary = <Spinner />;
-		}
+		// if (this.state.loading) {
+		// 	orderSummary = <Spinner />;
+		// }
 
 		console.log('Burger Builder : show ' + this.state.puchasing);
 
@@ -200,15 +203,16 @@ const mapStateToProps = state => {
 		//bPrice: state.basePrice,
 		tPrice: state.totalPrice,
 		//puchasable: state.puchasable,
+		error: state.error,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAddIngredient: ingName =>
-			dispatch({ type: actionTypes.addIngredient, ingredientName: ingName }),
+		onAddIngredient: ingName => dispatch(burgerBuilder.addIngredient(ingName)),
 		onRemoveIngredient: ingName =>
-			dispatch({ type: actionTypes.removeIngredient, ingredientName: ingName }),
+			dispatch(burgerBuilder.removeIngredient(ingName)),
+		onInitiateIngredient: () => dispatch(burgerBuilder.initializeIngredient()),
 	};
 };
 
