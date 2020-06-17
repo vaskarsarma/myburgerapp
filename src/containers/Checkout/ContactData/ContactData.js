@@ -12,6 +12,10 @@ import Input from '../../../components/UI/Input/Input';
 
 import { connect } from 'react-redux';
 
+import WithErrorHandler from '../../../hoc/withErrorHandler/WithErrorHandler';
+
+import * as orderAction from '../../../store/actions/index';
+
 class ContactData extends Component {
 	state = {
 		orderFrom: {
@@ -101,12 +105,12 @@ class ContactData extends Component {
 			},
 		},
 		isFormValid: false,
-		loading: false,
+		//loading: false,
 	};
 
 	orderHandler = event => {
 		event.preventDefault();
-		this.setState({ loading: true });
+		//this.setState({ loading: true });
 		const customerData = {};
 
 		for (let element in this.state.orderFrom) {
@@ -114,21 +118,29 @@ class ContactData extends Component {
 		}
 
 		console.log(customerData);
-		const data = {
+		const orderData = {
 			ingredient: this.props.ingredient,
 			price: '$' + this.props.price.toFixed(2),
 			customer: customerData,
 		};
-		axios
-			.post('/order.json', data)
-			.then(response => {
-				this.setState({ loading: false });
-				this.props.history.push('/');
-			})
-			.catch(error => {
-				this.setState({ loading: false });
-				console.log(error);
-			});
+
+		//console.log(this.props.error, this.props.loading);
+
+		this.props.onSubmitOrder(orderData, this.props.history);
+		//this.props.history.push('/');
+		//console.log(this.props.error, this.props.loading);
+		//if (!this.props.error) this.props.history.push('/');
+
+		// axios
+		// 	.post('/order.json', data)
+		// 	.then(response => {
+		// 		this.setState({ loading: false });
+		// 		this.props.history.push('/');
+		// 	})
+		// 	.catch(error => {
+		// 		this.setState({ loading: false });
+		// 		console.log(error);
+		// 	});
 	};
 
 	checkInputValidity(inputValue, rule) {
@@ -202,7 +214,7 @@ class ContactData extends Component {
 			</form>
 		);
 
-		if (this.state.loading) {
+		if (this.props.loading) {
 			frmData = <Spinner />;
 		}
 
@@ -217,9 +229,20 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
 	return {
-		ingredient: state.ingredient,
-		price: state.totalPrice,
+		ingredient: state.brgr.ingredient,
+		price: state.brgr.totalPrice,
+		loading: state.brgrorder.loading,
 	};
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+	return {
+		onSubmitOrder: (data, history) =>
+			dispatch(orderAction.submitOrder(data, history)),
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(WithErrorHandler(ContactData, axios));

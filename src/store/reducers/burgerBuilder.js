@@ -6,6 +6,7 @@ const initialeState = {
 	totalPrice: 4,
 	error: false,
 	//puchasable: false,
+	//loading: false,
 };
 
 const INGREDIENT_PRICE = {
@@ -69,6 +70,18 @@ const reducer = (state = initialeState, action) => {
 				...state,
 				error: true,
 			};
+		// case actionTypes.submitOrderSuccess:
+		// 	return {
+		// 		...state,
+		// 		loading: action.loading,
+		// 		error: false,
+		// 	};
+		// case actionTypes.submitOrderError:
+		// 	return {
+		// 		...state,
+		// 		loading: action.loading,
+		// 		error: true,
+		// 	};
 		default:
 			return state;
 	}

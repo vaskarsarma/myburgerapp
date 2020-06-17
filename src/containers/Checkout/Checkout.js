@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 
@@ -39,33 +39,37 @@ class Checkout extends Component {
 	};
 
 	render() {
-		return (
-			<div>
-				<CheckoutSummary
-					ingredient={this.props.ingt}
-					cancelorder={this.cancelOrderHandler}
-					continuepurchasing={this.continuePurchaseHandler}
-				/>
+		let checkoutSummary = <Redirect to='/' />;
+		if (this.props.ingt) {
+			checkoutSummary = (
+				<div>
+					<CheckoutSummary
+						ingredient={this.props.ingt}
+						cancelorder={this.cancelOrderHandler}
+						continuepurchasing={this.continuePurchaseHandler}
+					/>
 
-				<Route
-					path={this.props.match.path + '/contact-data'}
-					component={ContactData}
-					// render={props => (
-					// 	<ContactData
-					// 		ingredient={this.state.ingredient}
-					// 		price={this.state.totalPrice}
-					// 		{...props}
-					// 	/>
-					// )}
-				/>
-			</div>
-		);
+					<Route
+						path={this.props.match.path + '/contact-data'}
+						component={ContactData}
+						// render={props => (
+						// 	<ContactData
+						// 		ingredient={this.state.ingredient}
+						// 		price={this.state.totalPrice}
+						// 		{...props}
+						// 	/>
+						// )}
+					/>
+				</div>
+			);
+		}
+		return checkoutSummary;
 	}
 }
 
 const mapStateToProps = state => {
 	return {
-		ingt: state.ingredient,
+		ingt: state.brgr.ingredient,
 	};
 };
 

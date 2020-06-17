@@ -5,4 +5,4 @@ export {
 	fetchIngredientFailed,
 } from './burgerBuilder';
 
-export {} from './order';
+export { submitOrder } from './order';
