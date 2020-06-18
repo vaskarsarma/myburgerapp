@@ -41,3 +41,54 @@ export const submitOrder = (orderData, history) => {
 			});
 	};
 };
+
+export const fetchOrderSuccess = fetchedOrder => {
+	return {
+		type: actionTypes.fetchOrderSuccess,
+		fetchedorders: fetchedOrder,
+	};
+};
+
+export const fetchOrderFail = error => {
+	return {
+		type: actionTypes.fetchOrderFail,
+		error: error,
+	};
+};
+
+export const fetchOrderStart = () => {
+	return {
+		type: actionTypes.fetchOrderStart,
+	};
+};
+
+export const fetchOrder = () => {
+	return dispatch => {
+		dispatch(fetchOrderStart);
+		axios
+			.get('/order.json')
+			.then(response => {
+				//console.log(response.data);
+				const fetchedOrder = [];
+				for (let key in response.data) {
+					fetchedOrder.push({
+						...response.data[key],
+						id: key,
+					});
+				}
+				dispatch(fetchOrderSuccess(fetchedOrder));
+
+				// this.setState({
+				// 	loading: false,
+				// 	orders: fetchedOrder,
+				// });
+			})
+			.catch(err => {
+				//console.log(err);
+				// this.setState({
+				// 	loading: false,
+				// });
+				dispatch(fetchOrderFail(err));
+			});
+	};
+};

@@ -17,6 +17,7 @@ const orderReducer = (state = initialState, action) => {
 				orders: state.orders.concat(newOrder),
 				loading: false,
 			};
+		case actionTypes.fetchOrderFail:
 		case actionTypes.submitOrderError:
 			return {
 				...state,
@@ -27,6 +28,18 @@ const orderReducer = (state = initialState, action) => {
 				...state,
 				loading: true,
 			};
+		case actionTypes.fetchOrderSuccess:
+			return {
+				...state,
+				orders: action.fetchedorders,
+				loading: false,
+			};
+		case actionTypes.fetchOrderStart: {
+			return {
+				...state,
+				loading: true,
+			};
+		}
 		default:
 			return state;
 	}
