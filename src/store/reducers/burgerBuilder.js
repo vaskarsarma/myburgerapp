@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updatedObject } from '../utility';
 
 const initialeState = {
 	ingredient: null,
@@ -30,58 +31,51 @@ const getUpdatedPrice = (ingredients, basePrice) => {
 	return tPrice;
 };
 
+const addIngredient = (state, action) => {
+	return updatedObject(state, {
+		ingredient: {
+			...state.ingredient,
+			[action.ingredientName]: state.ingredient[action.ingredientName] + 1,
+		},
+		totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
+		//puchasable: true,
+	});
+};
+
+const removeIngredient = (state, action) => {
+	return updatedObject(state, {
+		ingredient: {
+			...state.ingredient,
+			[action.ingredientName]: state.ingredient[action.ingredientName] - 1,
+		},
+		totalPrice: state.totalPrice - INGREDIENT_PRICE[action.ingredientName],
+		//puchasable: true,
+	});
+};
+
+const initIngredient = (state, action) => {
+	return updatedObject(state, {
+		ingredient: {
+			meat: action.ingredient.meat,
+			cheese: action.ingredient.cheese,
+			salad: action.ingredient.salad,
+			bacon: action.ingredient.bacon,
+		},
+		error: false,
+		totalPrice: getUpdatedPrice(action.ingredient, state.basePrice),
+	});
+};
+
 const reducer = (state = initialeState, action) => {
 	switch (action.type) {
 		case actionTypes.addIngredient:
-			return {
-				...state,
-				ingredient: {
-					...state.ingredient,
-					[action.ingredientName]: state.ingredient[action.ingredientName] + 1,
-				},
-				totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
-				//puchasable: true,
-			};
+			return addIngredient(state, action);
 		case actionTypes.removeIngredient:
-			return {
-				...state,
-				ingredient: {
-					...state.ingredient,
-					[action.ingredientName]: state.ingredient[action.ingredientName] - 1,
-				},
-				totalPrice: state.totalPrice - INGREDIENT_PRICE[action.ingredientName],
-				//puchasable: true,
-			};
+			return removeIngredient(state, action);
 		case actionTypes.initializeIngredient:
-			return {
-				...state,
-				//ingredient: action.ingredient,
-				ingredient: {
-					meat: action.ingredient.meat,
-					cheese: action.ingredient.cheese,
-					salad: action.ingredient.salad,
-					bacon: action.ingredient.bacon,
-				},
-				error: false,
-				totalPrice: getUpdatedPrice(action.ingredient, state.basePrice),
-			};
+			return initIngredient(state, action);
 		case actionTypes.fetchIngredientFailed:
-			return {
-				...state,
-				error: true,
-			};
-		// case actionTypes.submitOrderSuccess:
-		// 	return {
-		// 		...state,
-		// 		loading: action.loading,
-		// 		error: false,
-		// 	};
-		// case actionTypes.submitOrderError:
-		// 	return {
-		// 		...state,
-		// 		loading: action.loading,
-		// 		error: true,
-		// 	};
+			return updatedObject(state, { error: true });
 		default:
 			return state;
 	}

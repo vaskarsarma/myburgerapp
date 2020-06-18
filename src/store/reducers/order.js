@@ -1,44 +1,35 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updatedObject } from '../utility';
 
 const initialState = {
 	orders: [],
 	loading: false,
 };
 
+const submitOrderSucess = (state, action) => {
+	const newOrder = updatedObject(action.orderData, { id: action.orderid });
+	return updatedObject(state, {
+		orders: state.orders.concat(newOrder),
+		loading: false,
+	});
+};
+
 const orderReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.submitOrderSuccess:
-			const newOrder = {
-				...action.orderData,
-				id: action.orderid,
-			};
-			return {
-				...state,
-				orders: state.orders.concat(newOrder),
-				loading: false,
-			};
+			return submitOrderSucess(state, action);
 		case actionTypes.fetchOrderFail:
 		case actionTypes.submitOrderError:
-			return {
-				...state,
-				loading: false,
-			};
+			return updatedObject(state, { loading: false });
 		case actionTypes.waitOrderSubmission:
-			return {
-				...state,
-				loading: true,
-			};
+			return updatedObject(state, { loading: true });
 		case actionTypes.fetchOrderSuccess:
-			return {
-				...state,
+			return updatedObject(state, {
 				orders: action.fetchedorders,
 				loading: false,
-			};
+			});
 		case actionTypes.fetchOrderStart: {
-			return {
-				...state,
-				loading: true,
-			};
+			return updatedObject(state, { loading: true });
 		}
 		default:
 			return state;
