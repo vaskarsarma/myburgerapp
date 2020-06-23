@@ -6,3 +6,5 @@ export {
 } from './burgerBuilder';
 
 export { submitOrder, fetchOrder } from './order';
+
+export { autheticate } from './auth';

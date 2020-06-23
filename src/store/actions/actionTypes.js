@@ -10,3 +10,8 @@ export const waitOrderSubmission = 'WAIT_ORDER_SUBMISSION';
 export const fetchOrderStart = 'FETCH_ORDER_START';
 export const fetchOrderSuccess = 'FETCH_ORDER_SUCCESS';
 export const fetchOrderFail = 'FETCH_ORDER_FAIL';
+
+export const authStart = 'AUTH_START';
+export const authSuccess = 'AUTH_SUCCESS';
+export const authFail = 'AUTH_FAIL';
+export const authLogout = 'AUTH_LOGOUT';

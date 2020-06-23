@@ -22,11 +22,11 @@ export const waitOrderSubmission = () => {
 	};
 };
 
-export const submitOrder = (orderData, history) => {
+export const submitOrder = (orderData, history, token) => {
 	return dispatch => {
 		dispatch(waitOrderSubmission());
 		axios
-			.post('/order.json', orderData)
+			.post('/order.json?auth=' + token, orderData)
 			.then(response => {
 				console.log(response.data);
 				//this.setState({ loading: false });
@@ -62,11 +62,11 @@ export const fetchOrderStart = () => {
 	};
 };
 
-export const fetchOrder = () => {
+export const fetchOrder = token => {
 	return dispatch => {
 		dispatch(fetchOrderStart);
 		axios
-			.get('/order.json')
+			.get('/order.json?auth=' + token)
 			.then(response => {
 				//console.log(response.data);
 				const fetchedOrder = [];

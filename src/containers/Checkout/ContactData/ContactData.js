@@ -127,7 +127,7 @@ class ContactData extends Component {
 
 		//console.log(this.props.error, this.props.loading);
 
-		this.props.onSubmitOrder(orderData, this.props.history);
+		this.props.onSubmitOrder(orderData, this.props.history, this.props.token);
 		//this.props.history.push('/');
 		//console.log(this.props.error, this.props.loading);
 		//if (!this.props.error) this.props.history.push('/');
@@ -243,13 +243,14 @@ const mapStateToProps = state => {
 		ingredient: state.brgr.ingredient,
 		price: state.brgr.totalPrice,
 		loading: state.brgrorder.loading,
+		token: state.auth.token,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onSubmitOrder: (data, history) =>
-			dispatch(orderAction.submitOrder(data, history)),
+		onSubmitOrder: (data, history, token) =>
+			dispatch(orderAction.submitOrder(data, history, token)),
 	};
 };
 

@@ -12,6 +12,7 @@ import thunk from 'redux-thunk';
 
 import burgerBuilder from './store/reducers/burgerBuilder';
 import orders from './store/reducers/order';
+import auth from './store/reducers/auth';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -19,6 +20,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
 	brgr: burgerBuilder,
 	brgrorder: orders,
+	auth: auth,
 });
 
 // Create Store

@@ -15,7 +15,7 @@ class Orders extends Component {
 	};
 
 	componentDidMount() {
-		this.props.onFetchOrders();
+		this.props.onFetchOrders(this.props.token);
 		// this.setState({ loading: true });
 		// Axios.get('/order.json')
 		// 	.then(response => {
@@ -67,12 +67,13 @@ const mapStateToProps = state => {
 	return {
 		orders: state.brgrorder.orders,
 		loading: state.brgrorder.loading,
+		token: state.auth.token,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onFetchOrders: () => dispatch(orderActions.fetchOrder()),
+		onFetchOrders: token => dispatch(orderActions.fetchOrder(token)),
 	};
 };
 
