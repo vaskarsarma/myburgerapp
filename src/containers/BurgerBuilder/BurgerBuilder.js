@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { Router, Redirect } from 'react-router-dom';
+//import { Redirect } from 'react-router-dom';
 
 import AUX from '../../hoc/Hoc/hoc-aux';
 import Burger from '../../components/Burger/Burger';
@@ -118,6 +118,11 @@ class BurgerBuilder extends Component {
 		this.setState({ puchasing: false });
 	};
 
+	signUpHandler = () => {
+		console.log('signUpHandler');
+		this.props.history.push('/auth');
+	};
+
 	continuePurchaseHandler = () => {
 		// const queryParams = [];
 		// for (let i in this.props.ingnt) {
@@ -163,6 +168,8 @@ class BurgerBuilder extends Component {
 						totalprice={this.props.tPrice}
 						puchasable={this.updatePurchaseHandler(this.props.ingnt)}
 						ordered={this.purchasingHandler}
+						isAuthenticated={this.props.isAuthenticated}
+						signup={this.signUpHandler}
 					/>
 				</AUX>
 			);
@@ -204,6 +211,7 @@ const mapStateToProps = state => {
 		tPrice: state.brgr.totalPrice,
 		//puchasable: state.puchasable,
 		error: state.brgr.error,
+		isAuthenticated: state.auth.token !== null,
 	};
 };
 

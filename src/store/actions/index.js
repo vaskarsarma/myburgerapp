@@ -7,4 +7,4 @@ export {
 
 export { submitOrder, fetchOrder } from './order';
 
-export { autheticate } from './auth';
+export { autheticate, logOut } from './auth';

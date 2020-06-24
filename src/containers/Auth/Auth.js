@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import classes from './Auth.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as authActions from '../../store/actions/index';
+import { object } from 'prop-types';
 
 class Auth extends Component {
 	state = {
@@ -148,8 +151,28 @@ class Auth extends Component {
 
 		if (this.props.loading) formElements = <Spinner />;
 
+		//console.log(this.props.ingredient);
+
+		let totalIng = 0;
+		if (this.props.ingredient) {
+			totalIng = Object.keys(this.props.ingredient)
+				.map(i => {
+					return this.props.ingredient[i];
+				})
+				.reduce((prevSum, cVal) => prevSum + cVal, 0);
+		}
+
+		const authenticated = this.props.isAuthenTicated ? (
+			totalIng > 0 ? (
+				<Redirect to='/Checkout' />
+			) : (
+				<Redirect to='/' />
+			)
+		) : null;
+
 		return (
 			<div className={classes.Auth}>
+				{authenticated}
 				{errormessages}
 				<form onSubmit={this.onSubmitHandler}>
 					{formElements}
@@ -165,8 +188,10 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
 	return {
+		ingredient: state.brgr.ingredient,
 		error: state.auth.error,
 		loading: state.auth.loading,
+		isAuthenTicated: state.auth.token !== null,
 	};
 };
 
