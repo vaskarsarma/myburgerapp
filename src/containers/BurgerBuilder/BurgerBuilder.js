@@ -15,7 +15,7 @@ import WithErrorHandler from '../../hoc/withErrorHandler/WithErrorHandler';
 import { connect } from 'react-redux';
 //import * as actionTypes from '../../store/actions/actionTypes';
 
-import * as burgerBuilder from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
 	state = {
@@ -31,6 +31,8 @@ class BurgerBuilder extends Component {
 	componentWillMount() {
 		console.log(this.props);
 		this.props.onInitiateIngredient();
+		// if (!this.props.isBuildBurger && this.props.authRedirectPath != '/')
+		// 	this.props.onSetAuthRedirectPath('/');
 		// axios
 		// 	.get(`/ingredient.json`)
 		// 	.then(response => {
@@ -43,6 +45,8 @@ class BurgerBuilder extends Component {
 		// 		this.setState({ error: true });
 		// 	});
 	}
+
+	componentDidMount() {}
 
 	// getUpdatedPrice = ingredients => {
 	// 	const tPrice = Object.keys(ingredients)
@@ -120,6 +124,7 @@ class BurgerBuilder extends Component {
 
 	signUpHandler = () => {
 		console.log('signUpHandler');
+		if (this.props.isBuildBurger) this.props.onSetAuthRedirectPath('/Checkout');
 		this.props.history.push('/auth');
 	};
 
@@ -212,15 +217,17 @@ const mapStateToProps = state => {
 		//puchasable: state.puchasable,
 		error: state.brgr.error,
 		isAuthenticated: state.auth.token !== null,
+		isBuildBurger: state.brgr.buildingBurger,
+		authRedirectPath: state.auth.authRedirectPath,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAddIngredient: ingName => dispatch(burgerBuilder.addIngredient(ingName)),
-		onRemoveIngredient: ingName =>
-			dispatch(burgerBuilder.removeIngredient(ingName)),
-		onInitiateIngredient: () => dispatch(burgerBuilder.initializeIngredient()),
+		onAddIngredient: ingName => dispatch(actions.addIngredient(ingName)),
+		onRemoveIngredient: ingName => dispatch(actions.removeIngredient(ingName)),
+		onInitiateIngredient: () => dispatch(actions.initializeIngredient()),
+		onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path)),
 	};
 };
 

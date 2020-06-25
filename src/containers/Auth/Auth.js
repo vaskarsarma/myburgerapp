@@ -7,7 +7,6 @@ import Button from '../../components/UI/Button/Button';
 import classes from './Auth.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as authActions from '../../store/actions/index';
-import { object } from 'prop-types';
 
 class Auth extends Component {
 	state = {
@@ -48,6 +47,11 @@ class Auth extends Component {
 		isSignUP: true,
 		isContentUpdated: false,
 	};
+
+	componentDidMount() {
+		if (!this.props.isBurgerBuild && this.props.authRedirectPath !== '/')
+			this.props.onSetAuthRedirectPath();
+	}
 
 	checkInputValidity(inputValue, rule) {
 		let isValid = true;
@@ -153,26 +157,30 @@ class Auth extends Component {
 
 		//console.log(this.props.ingredient);
 
-		let totalIng = 0;
-		if (this.props.ingredient) {
-			totalIng = Object.keys(this.props.ingredient)
-				.map(i => {
-					return this.props.ingredient[i];
-				})
-				.reduce((prevSum, cVal) => prevSum + cVal, 0);
-		}
+		// let totalIng = 0;
+		// if (this.props.ingredient) {
+		// 	totalIng = Object.keys(this.props.ingredient)
+		// 		.map(i => {
+		// 			return this.props.ingredient[i];
+		// 		})
+		// 		.reduce((prevSum, cVal) => prevSum + cVal, 0);
+		// }
 
-		const authenticated = this.props.isAuthenTicated ? (
-			totalIng > 0 ? (
-				<Redirect to='/Checkout' />
-			) : (
-				<Redirect to='/' />
-			)
-		) : null;
+		// const authenticated = this.props.isAuthenTicated ? (
+		// 	totalIng > 0 ? (
+		// 		<Redirect to='/Checkout' />
+		// 	) : (
+		// 		<Redirect to='/' />
+		// 	)
+		// ) : null;
+
+		let getRedirectPath = '';
+		if (this.props.isAuthenTicated)
+			getRedirectPath = <Redirect to={this.props.authRedirectPath} />;
 
 		return (
 			<div className={classes.Auth}>
-				{authenticated}
+				{getRedirectPath}
 				{errormessages}
 				<form onSubmit={this.onSubmitHandler}>
 					{formElements}
@@ -192,6 +200,8 @@ const mapStateToProps = state => {
 		error: state.auth.error,
 		loading: state.auth.loading,
 		isAuthenTicated: state.auth.token !== null,
+		isBurgerBuild: state.brgr.buildingBurger,
+		authRedirectPath: state.auth.authRedirectPath,
 	};
 };
 
@@ -199,6 +209,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onAuthSubmit: (email, password, isSignUP) =>
 			dispatch(authActions.autheticate(email, password, isSignUP)),
+
+		onSetAuthRedirectPath: () => dispatch(authActions.setAuthRedirectPath('/')),
 	};
 };
 

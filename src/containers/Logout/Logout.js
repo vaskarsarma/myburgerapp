@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import * as authActions from '../../store/actions/index';
 
 class Logout extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		this.props.onLogout();
+		this.props.onSetAuthRedirectPath();
 	}
 
 	render() {
@@ -16,6 +17,7 @@ class Logout extends Component {
 const mapDispatchToProps = dispatch => {
 	return {
 		onLogout: () => dispatch(authActions.logOut()),
+		onSetAuthRedirectPath: () => dispatch(authActions.setAuthRedirectPath('/')),
 	};
 };
 

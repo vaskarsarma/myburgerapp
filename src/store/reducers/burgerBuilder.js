@@ -6,6 +6,7 @@ const initialeState = {
 	basePrice: 4,
 	totalPrice: 4,
 	error: false,
+	buildingBurger: false,
 	//puchasable: false,
 	//loading: false,
 };
@@ -39,6 +40,7 @@ const addIngredient = (state, action) => {
 		},
 		totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName],
 		//puchasable: true,
+		buildingBurger: true,
 	});
 };
 
@@ -49,6 +51,7 @@ const removeIngredient = (state, action) => {
 			[action.ingredientName]: state.ingredient[action.ingredientName] - 1,
 		},
 		totalPrice: state.totalPrice - INGREDIENT_PRICE[action.ingredientName],
+		buildingBurger: true,
 		//puchasable: true,
 	});
 };
@@ -63,6 +66,7 @@ const initIngredient = (state, action) => {
 		},
 		error: false,
 		totalPrice: getUpdatedPrice(action.ingredient, state.basePrice),
+		buildingBurger: false,
 	});
 };
 

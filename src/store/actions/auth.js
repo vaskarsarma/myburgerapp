@@ -68,3 +68,10 @@ export const autheticate = (email, password, isSignUP) => {
 			});
 	};
 };
+
+export const setAuthRedirectPath = path => {
+	return {
+		type: actionTypes.setAuthRedirectPath,
+		path: path,
+	};
+};
