@@ -17,3 +17,5 @@ export const authFail = 'AUTH_FAIL';
 export const authLogout = 'AUTH_LOGOUT';
 
 export const setAuthRedirectPath = 'SET_AUTH_REDIRECT_PATH';
+
+export const checkAuthenticated = 'CHECK_AUTHENTICATED';
