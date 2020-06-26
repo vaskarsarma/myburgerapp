@@ -49,8 +49,10 @@ class Auth extends Component {
 	};
 
 	componentDidMount() {
-		if (!this.props.isBurgerBuild && this.props.authRedirectPath !== '/')
+		if (!this.props.isBurgerBuild && this.props.authRedirectPath !== '/') {
 			this.props.onSetAuthRedirectPath();
+			console.log('qqq');
+		}
 	}
 
 	checkInputValidity(inputValue, rule) {
@@ -174,9 +176,11 @@ class Auth extends Component {
 		// 	)
 		// ) : null;
 
-		let getRedirectPath = '';
-		if (this.props.isAuthenTicated)
+		let getRedirectPath = null;
+		// console.log('sfsdd ' + this.props.authRedirectPath);
+		if (this.props.isAuthenticated) {
 			getRedirectPath = <Redirect to={this.props.authRedirectPath} />;
+		}
 
 		return (
 			<div className={classes.Auth}>
@@ -195,11 +199,13 @@ class Auth extends Component {
 }
 
 const mapStateToProps = state => {
+	console.log('token');
+	console.log(state.auth.token);
 	return {
 		ingredient: state.brgr.ingredient,
 		error: state.auth.error,
 		loading: state.auth.loading,
-		isAuthenTicated: state.auth.token !== null,
+		isAuthenticated: state.auth.token !== null,
 		isBurgerBuild: state.brgr.buildingBurger,
 		authRedirectPath: state.auth.authRedirectPath,
 	};

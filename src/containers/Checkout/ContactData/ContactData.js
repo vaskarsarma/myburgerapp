@@ -123,6 +123,7 @@ class ContactData extends Component {
 			ingredient: this.props.ingredient,
 			price: '$' + this.props.price.toFixed(2),
 			customer: customerData,
+			userId: this.props.userId,
 		};
 
 		//console.log(this.props.error, this.props.loading);
@@ -244,6 +245,7 @@ const mapStateToProps = state => {
 		price: state.brgr.totalPrice,
 		loading: state.brgrorder.loading,
 		token: state.auth.token,
+		userId: state.auth.userId,
 	};
 };
 

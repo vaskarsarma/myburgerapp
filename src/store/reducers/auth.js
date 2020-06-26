@@ -29,8 +29,8 @@ const authReducer = (state = initialstate, action) => {
 			});
 		case actionTypes.setAuthRedirectPath:
 			return updatedObject(state, { authRedirectPath: action.path });
-		case actionTypes.checkAuthenticated:
-			return updatedObject(state, {});
+		// case actionTypes.checkAuthenticated:
+		// 	return { ...state };
 		default:
 			return state;
 	}

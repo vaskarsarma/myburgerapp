@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Layout from './hoc/Layout/Layout';
@@ -17,26 +17,40 @@ class App extends Component {
 	}
 
 	render() {
-		const postLoginRouter = (
+		let routers = (
 			<Switch>
-				<Route path='/checkout' component={Checkout} />
-				<Route path='/orders' component={Orders} />
-				<Route path='/logout' component={Logout} />
-				<Route path='/' component={BurgerBuilder} />
+				<Route path='/auth' component={Auth} />
+				<Route path='/' exact component={BurgerBuilder} />
+				<Redirect to='/' />
 			</Switch>
 		);
 
-		const preLoginRouter = (
-			<Switch>
-				<Route path='/auth' component={Auth} />
-				<Route path='/' component={BurgerBuilder} />
-			</Switch>
-		);
+		if (this.props.isAutheTicated) {
+			// console.log('111 ', this.props.isAutheTicated);
+			routers = (
+				<Switch>
+					<Route path='/auth' component={Auth} />
+					<Route path='/checkout' component={Checkout} />
+					<Route path='/orders' component={Orders} />
+					<Route path='/logout' component={Logout} />
+					<Route path='/' exact component={BurgerBuilder} />
+					<Redirect to='/' />
+				</Switch>
+			);
+		}
 
 		return (
 			<div>
 				<Layout>
-					{this.props.isAutheTicated ? postLoginRouter : preLoginRouter}
+					{routers}
+					{/* <Switch>
+						<Route path='/auth' component={Auth} />
+						<Route path='/checkout' component={Checkout} />
+						<Route path='/orders' component={Orders} />
+						<Route path='/logout' component={Logout} />
+						<Route path='/' exact component={BurgerBuilder} />
+						<Redirect to='/' />
+					</Switch> */}
 				</Layout>
 			</div>
 		);
@@ -55,7 +69,9 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(App);
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps,
+	)(App),
+);

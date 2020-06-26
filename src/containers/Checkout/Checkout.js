@@ -40,7 +40,9 @@ class Checkout extends Component {
 
 	render() {
 		let checkoutSummary = <Redirect to='/' />;
+		console.log('222' + this.props.ingt);
 		if (this.props.ingt) {
+			console.log('222');
 			checkoutSummary = (
 				<div>
 					<CheckoutSummary
