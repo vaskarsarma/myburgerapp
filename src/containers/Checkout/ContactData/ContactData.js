@@ -16,7 +16,7 @@ import WithErrorHandler from '../../../hoc/withErrorHandler/WithErrorHandler';
 
 import * as orderAction from '../../../store/actions/index';
 
-import { updatedObject } from '../../../shared/utility';
+import { updatedObject, checkInputValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
 	state = {
@@ -147,40 +147,12 @@ class ContactData extends Component {
 		// 	});
 	};
 
-	checkInputValidity(inputValue, rule) {
-		let isValid = true;
-
-		if (rule.required) {
-			isValid = inputValue !== '' && isValid;
-		}
-
-		if (rule.minlength) {
-			isValid = inputValue.length >= rule.minlength && isValid;
-		}
-
-		if (rule.maxlength) {
-			isValid = inputValue.length <= rule.maxlength && isValid;
-		}
-
-		if (rule.isEmail) {
-			const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-			isValid = pattern.test(inputValue) && isValid;
-		}
-
-		if (rule.isNumeric) {
-			const pattern = /^\d+$/;
-			isValid = pattern.test(inputValue) && isValid;
-		}
-
-		return isValid;
-	}
-
 	inputchangehandler = (event, inputfieldname) => {
 		const updatedInputElement = updatedObject(
 			this.state.orderFrom[inputfieldname],
 			{
 				value: event.target.value.trim(),
-				valid: this.checkInputValidity(
+				valid: checkInputValidity(
 					event.target.value.trim(),
 					this.state.orderFrom[inputfieldname].validation,
 				),

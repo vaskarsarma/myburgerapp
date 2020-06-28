@@ -7,7 +7,7 @@ import Button from '../../components/UI/Button/Button';
 import classes from './Auth.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as authActions from '../../store/actions/index';
-import { updatedObject } from '../../shared/utility';
+import { updatedObject, checkInputValidity } from '../../shared/utility';
 
 class Auth extends Component {
 	state = {
@@ -56,40 +56,40 @@ class Auth extends Component {
 		}
 	}
 
-	checkInputValidity(inputValue, rule) {
-		let isValid = true;
+	// checkInputValidity(inputValue, rule) {
+	// 	let isValid = true;
 
-		if (rule.required) {
-			isValid = inputValue !== '' && isValid;
-		}
+	// 	if (rule.required) {
+	// 		isValid = inputValue !== '' && isValid;
+	// 	}
 
-		if (rule.minlength) {
-			isValid = inputValue.length >= rule.minlength && isValid;
-		}
+	// 	if (rule.minlength) {
+	// 		isValid = inputValue.length >= rule.minlength && isValid;
+	// 	}
 
-		if (rule.maxlength) {
-			isValid = inputValue.length <= rule.maxlength && isValid;
-		}
+	// 	if (rule.maxlength) {
+	// 		isValid = inputValue.length <= rule.maxlength && isValid;
+	// 	}
 
-		if (rule.isEmail) {
-			const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-			isValid = pattern.test(inputValue) && isValid;
-		}
+	// 	if (rule.isEmail) {
+	// 		const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+	// 		isValid = pattern.test(inputValue) && isValid;
+	// 	}
 
-		if (rule.isNumeric) {
-			const pattern = /^\d+$/;
-			isValid = pattern.test(inputValue) && isValid;
-		}
+	// 	if (rule.isNumeric) {
+	// 		const pattern = /^\d+$/;
+	// 		isValid = pattern.test(inputValue) && isValid;
+	// 	}
 
-		return isValid;
-	}
+	// 	return isValid;
+	// }
 
 	inputchangehandler = (event, inputfieldname) => {
 		const updatedInputElement = updatedObject(
 			this.state.controlFrom[inputfieldname],
 			{
 				value: event.target.value.trim(),
-				valid: this.checkInputValidity(
+				valid: checkInputValidity(
 					event.target.value,
 					this.state.controlFrom[inputfieldname].validation,
 				),
