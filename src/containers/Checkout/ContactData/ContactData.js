@@ -16,6 +16,8 @@ import WithErrorHandler from '../../../hoc/withErrorHandler/WithErrorHandler';
 
 import * as orderAction from '../../../store/actions/index';
 
+import { updatedObject } from '../../../shared/utility';
+
 class ContactData extends Component {
 	state = {
 		orderFrom: {
@@ -174,17 +176,31 @@ class ContactData extends Component {
 	}
 
 	inputchangehandler = (event, inputfieldname) => {
-		const updatedOrderForm = { ...this.state.orderFrom };
-		const updatedInputElement = { ...updatedOrderForm[inputfieldname] };
-
-		updatedInputElement.value = event.target.value.trim();
-		updatedInputElement.valid = this.checkInputValidity(
-			updatedInputElement.value,
-			updatedInputElement.validation,
+		const updatedInputElement = updatedObject(
+			this.state.orderFrom[inputfieldname],
+			{
+				value: event.target.value.trim(),
+				valid: this.checkInputValidity(
+					event.target.value.trim(),
+					this.state.orderFrom[inputfieldname].validation,
+				),
+				touched: true,
+			},
 		);
+		//{ ...updatedOrderForm[inputfieldname] };
 
-		updatedInputElement.touched = true;
-		updatedOrderForm[inputfieldname] = updatedInputElement;
+		//updatedInputElement.value = event.target.value.trim();
+		// updatedInputElement.valid = this.checkInputValidity(
+		// 	updatedInputElement.value,
+		// 	updatedInputElement.validation,
+		// );
+
+		//updatedInputElement.touched = true;
+		const updatedOrderForm = updatedObject(this.state.orderFrom, {
+			[inputfieldname]: updatedInputElement,
+		});
+		//{ ...this.state.orderFrom };
+		//updatedOrderForm[inputfieldname] = updatedInputElement;
 
 		let isformvalid = true;
 		for (let k in updatedOrderForm) {
