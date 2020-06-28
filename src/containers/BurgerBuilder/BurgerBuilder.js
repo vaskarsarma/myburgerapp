@@ -29,7 +29,7 @@ class BurgerBuilder extends Component {
 	};
 
 	componentWillMount() {
-		console.log(this.props);
+		// console.log(this.props);
 		this.props.onInitiateIngredient();
 		// if (!this.props.isBuildBurger && this.props.authRedirectPath != '/')
 		// 	this.props.onSetAuthRedirectPath('/');
@@ -123,7 +123,7 @@ class BurgerBuilder extends Component {
 	};
 
 	signUpHandler = () => {
-		console.log('signUpHandler');
+		// console.log('signUpHandler');
 		if (this.props.isBuildBurger) this.props.onSetAuthRedirectPath('/Checkout');
 		this.props.history.push('/auth');
 	};
@@ -160,7 +160,7 @@ class BurgerBuilder extends Component {
 
 		let orderSummary = null;
 
-		console.log(this.props.ingnt);
+		// console.log(this.props.ingnt);
 
 		if (this.props.ingnt && this.props.tPrice > 0) {
 			burger = (
@@ -193,7 +193,7 @@ class BurgerBuilder extends Component {
 		// 	orderSummary = <Spinner />;
 		// }
 
-		console.log('Burger Builder : show ' + this.state.puchasing);
+		// console.log('Burger Builder : show ' + this.state.puchasing);
 
 		return (
 			<AUX>

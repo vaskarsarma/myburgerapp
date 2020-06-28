@@ -52,7 +52,7 @@ class Auth extends Component {
 	componentDidMount() {
 		if (!this.props.isBurgerBuild && this.props.authRedirectPath !== '/') {
 			this.props.onSetAuthRedirectPath();
-			console.log('qqq');
+			// console.log('qqq');
 		}
 	}
 
@@ -113,7 +113,7 @@ class Auth extends Component {
 	};
 
 	onSubmitHandler = event => {
-		console.log(this.state.isSignUP);
+		// console.log(this.state.isSignUP);
 		event.preventDefault();
 		this.setState({ isContentUpdated: false });
 		this.props.onAuthSubmit(
@@ -203,8 +203,8 @@ class Auth extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log('token');
-	console.log(state.auth.token);
+	// console.log('token');
+	// console.log(state.auth.token);
 	return {
 		ingredient: state.brgr.ingredient,
 		error: state.auth.error,

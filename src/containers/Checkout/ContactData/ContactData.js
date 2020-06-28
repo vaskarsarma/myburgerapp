@@ -120,7 +120,7 @@ class ContactData extends Component {
 			customerData[element] = this.state.orderFrom[element].value;
 		}
 
-		console.log(customerData);
+		// console.log(customerData);
 		const orderData = {
 			ingredient: this.props.ingredient,
 			price: '$' + this.props.price.toFixed(2),

@@ -28,7 +28,7 @@ export const submitOrder = (orderData, history, token) => {
 		axios
 			.post('/order.json?auth=' + token, orderData)
 			.then(response => {
-				console.log(response.data);
+				// console.log(response.data);
 				//this.setState({ loading: false });
 				//this.props.history.push('/');
 				dispatch(submitOrderSuccess(response.data.name, orderData));

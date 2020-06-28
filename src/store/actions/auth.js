@@ -40,7 +40,7 @@ export const checkAuthTimeOut = expirationTime => {
 };
 
 export const autheticate = (email, password, isSignUP) => {
-	console.log(email, password);
+	// console.log(email, password);
 	return dispatch => {
 		//Axios call
 		dispatch(authStart());
@@ -62,7 +62,7 @@ export const autheticate = (email, password, isSignUP) => {
 		axios
 			.post(url, data)
 			.then(response => {
-				console.log(response);
+				// console.log(response);
 				localStorage.setItem('token', response.data.idToken);
 				localStorage.setItem('userid', response.data.localId);
 				const expirationDate = new Date(

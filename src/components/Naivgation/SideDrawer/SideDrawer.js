@@ -12,7 +12,7 @@ const sideDrawer = props => {
 		attachedClasses = [classes.SideDrawer, classes.Open];
 	}
 
-	console.log('Sidedrawer : open ' + props.open);
+	//console.log('Sidedrawer : open ' + props.open);
 
 	return (
 		<AUX>
