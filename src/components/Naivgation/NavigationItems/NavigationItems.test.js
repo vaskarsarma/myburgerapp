@@ -23,4 +23,17 @@ describe('<NavigationItems>', () => {
 		wrapper.setProps({ isAuthenticated: true });
 		expect(wrapper.find(NavigationItem)).toHaveLength(3);
 	});
+
+	it('Component is not empty', () => {
+		const wrapper = shallow(<NavigationItems />);
+		expect(wrapper.find(NavigationItem).exists()).toBe(true);
+	});
+
+	it('logout navigation should preset if authorized', () => {
+		// wrapper = shallow(<NavigationItems isAuthenticated='true' />);
+		wrapper.setProps({ isAuthenticated: true });
+		expect(
+			wrapper.contains(<NavigationItem link='/logout'>Logout</NavigationItem>),
+		).toEqual(true);
+	});
 });
